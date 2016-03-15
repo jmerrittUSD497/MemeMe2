@@ -32,22 +32,17 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         prepareMeme()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         //Disable the cameraButton if no camera is available
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
-        self.subscribeToKeyboardNotifications()
-        self.subscribeToKeyboardWillHide()
+        subscribeToKeyboardNotifications()
+        subscribeToKeyboardWillHide()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.unsubscribeFromKeyboardNotifications()
+        unsubscribeFromKeyboardNotifications()
     }
     
 //MARK: - Keyboard functions
@@ -97,7 +92,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     
     func unsubscribeFromKeyboardNotifications() {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        self.subscribeToKeyboardWillHide()
+        subscribeToKeyboardWillHide()
     }
     
 //MARK: - Image picking functions
@@ -115,14 +110,14 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = source
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        presentViewController(imagePicker, animated: true, completion: nil)
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            self.imagePickerView.image = image
+            imagePickerView.image = image
             shareButton.enabled = true
-            self.dismissViewControllerAnimated(true, completion: nil)
+            dismissViewControllerAnimated(true, completion: nil)
         }
     }
 
@@ -185,7 +180,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     
     @IBAction func cancelMeme(sender: AnyObject) {
         //Clear the imagePickerView, disable the shareButton and set the textFields back to placeholder values
-        self.imagePickerView.image = nil
+        imagePickerView.image = nil
         topTextField.text = "TOP"
         bottomTextField.text = "BOTTOM"
         if (shareButton.enabled) {
