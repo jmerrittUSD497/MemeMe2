@@ -53,7 +53,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     func keyboardWillShow(notification: NSNotification) {
         //Shift the view frame up, if bottomTextField is the first responder
         if self.bottomTextField.isFirstResponder() {
-            self.view.frame.origin.y -= getKeyboardHeight(notification)
+            self.view.frame.origin.y = getKeyboardHeight(notification) * -1
         }
     }
     
@@ -63,7 +63,9 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     
     func keyboardWillHide(notification: NSNotification) {
         //Shift the view frame back to the original starting position
-        self.view.frame.origin.y = 0.0
+        if self.bottomTextField.isFirstResponder() {
+            self.view.frame.origin.y = 0.0
+        }
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
